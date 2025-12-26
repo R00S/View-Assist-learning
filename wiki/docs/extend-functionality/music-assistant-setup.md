@@ -73,6 +73,17 @@ You can combine multiple music sources:
 4. Follow the authentication steps
 5. Allow time for initial library synchronization (this may take several minutes to hours depending on library size)
 
+:::warning Offline Playback Limitations
+Music Assistant 2.7 does **not** support offline playback for streaming services like Spotify. Streaming providers require an active internet connection and work via their respective protocols (e.g., Spotify Connect). 
+
+**For offline playback:**
+- Use local music files stored on your Home Assistant server or NAS
+- Local files can be played without an internet connection
+- Spotify playlists cannot be cached locally for offline use due to API and DRM restrictions
+
+This is a known limitation, and offline caching for streaming services is a feature under consideration for future releases.
+:::
+
 ## Step 3: Discover and Configure Audio Players
 
 Music Assistant will auto-discover compatible media players on your network:
