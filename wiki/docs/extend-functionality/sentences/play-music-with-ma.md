@@ -1,5 +1,9 @@
 # Play Music with Music Assistant
 
+:::info Current Setup Guide
+For comprehensive, up-to-date instructions on setting up Music Assistant with View Assist (December 2025), please see the [Music Assistant Setup Guide](../music-assistant-setup.md).
+:::
+
 ## Requirements
 
 - Music Assistant server installed and integrated with Home Assistant

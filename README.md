@@ -1,4 +1,10 @@
-# View-Assist
+# View-Assist Learning
+
+## Project Goal
+
+This repository is dedicated to learning how to integrate View Assist with [Music Assistant](https://github.com/music-assistant/server). The focus is on creating up-to-date, step-by-step instructions for connecting View Assist installations to Music Assistant using the latest versions available as of December 2025 (HAOS 2025.12.x, Music Assistant 2.7, and current View Assist releases).
+
+## About View Assist
 
 View Assist provides visual feedback for the Home Assistant Assist voice assistant using a collection of different automations, custom sentences, scripts, and extensions with the view being displayed on any Android device.  Multiple devices can join the View Assist satellite network and interact.  This is not limited to Android devices as ESPHome satellites are also supported.  The project is still a work in progress but is fully functional.  
 
@@ -8,7 +14,9 @@ View Assist provides visual feedback for the Home Assistant Assist voice assista
 ^^^ Click for demo video on Youtube ^^^
 
 
-The information in this repo is separated into different subdirectories with install information stored in the wiki.  This project is designed so that you can pick and choose the parts that you want for your needs.  The custom sentences can be modified for those who may only be interested in voice only.  The dashboard views may be interesting to others who are writing their own custom sentences.
+The information in this repo is separated into different subdirectories with comprehensive setup and integration information stored in the wiki. This project is designed so that you can pick and choose the parts that you want for your needs. The custom sentences can be modified for those who may only be interested in voice only. The dashboard views may be interesting to others who are writing their own custom sentences.
+
+**For up-to-date Music Assistant integration instructions**, please see the [Music Assistant Setup Guide](wiki/docs/extend-functionality/music-assistant-setup.md) in the wiki.
 
 Please see the Wiki for detailed information [https://github.com/dinki/View-Assist/wiki
 ](https://dinki.github.io/View-Assist/)
