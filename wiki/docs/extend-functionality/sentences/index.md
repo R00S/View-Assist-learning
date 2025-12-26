@@ -5,6 +5,10 @@ sidebar_position: 1
 
 View Assist is easily extendable by adding custom sentences which provide data to different custom views. On this page you will find a gallery of premade custom sentences. You will find links to the requirements and installation instructions. Blueprints have been made available for easy installation.
 
+:::tip Music Assistant Integration
+For comprehensive, up-to-date instructions on setting up Music Assistant with View Assist (December 2025), see the [Music Assistant Setup Guide](../music-assistant-setup.md).
+:::
+
 We encourage everyone to share their creations so that others might enjoy what you have brought to life. These user submitted blueprints can be found in the [Community Contribution](../../community-contributions/index.md) section of the wiki.
 
 | Sentence                                                        | Description                                                                           |

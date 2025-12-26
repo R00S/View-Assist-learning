@@ -4,6 +4,12 @@ sidebar_position: 1
 
 # Welcome to View Assist
 
+## Learning Goals
+
+This documentation serves as a learning resource for integrating View Assist with [Music Assistant](https://github.com/music-assistant/server). While the wiki contains historical information, this guide focuses on up-to-date instructions for December 2025, using HAOS 2025.12.x, Music Assistant 2.7, and the latest View Assist releases.
+
+## About View Assist
+
 View Assist provides visual feedback for the Home Assistant Assist voice assistant using a collection of different automations, custom sentences, scripts, and extensions with the view being displayed on any Android device.  Multiple devices can join the View Assist satellite network and interact.  This is not limited to Android devices as voice only ESPHome satellites like the Home Assistant Voice Preview Edition are also supported.  Some users have even brought Linux devices in as View Assist satellites as well.   
 
 
