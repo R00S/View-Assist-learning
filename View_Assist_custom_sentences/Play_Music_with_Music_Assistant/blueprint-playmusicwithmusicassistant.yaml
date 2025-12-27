@@ -1,9 +1,9 @@
 blueprint:
   name: View Assist - Play Music with Music Assistant
   description:
-    Use various methods to play individual songs, add to queue, play artist
+    Use various methods to play individual songs, albums, add to queue, play artist
     and playlists from your Music Assistant server (View Assist Play Music with Music
-    Assistant v 1.2.0)
+    Assistant v 1.3.0)
   domain: automation
   input:
     ma_instance:
@@ -29,6 +29,10 @@ blueprint:
       name: Play Artist Command
       description: The command to trigger the play artist action
       default: (play the artist {artist} | play some {artist} [music] |play [some] [music | songs] by {artist})
+    play_album_command:
+      name: Play Album Command
+      description: The command to trigger the play album action
+      default: play [the] album {album} [by {artist}]
     play_playlist_command:
       name: Play Playlist Command
       description: The command to trigger the play playlist action
@@ -47,6 +51,9 @@ trigger:
   - trigger: conversation
     command: !input play_artist_command
     id: playartist
+  - trigger: conversation
+    command: !input play_album_command
+    id: playalbum
   - trigger: conversation
     command: !input play_playlist_command
     id: playlist
@@ -72,6 +79,8 @@ actions:
           responses:
             playartist_found: Playing {artist} music
             playartist_not_found: I was unable to find any music for {search_artist}
+            playalbum_found: "Playing the album {album}"
+            playalbum_not_found: "Sorry, the album {search_album} was not found"
             playlist_found: "Playing the {playlist} playlist"
             playlist_not_found: "Sorry, no playlist named {search_playlist} could be found"
             playsong_found: "Playing {song} by {artist}"
@@ -81,6 +90,8 @@ actions:
           responses:
             playartist_found: "Spiele Musik von {artist}"
             playartist_not_found: "Entschuldigung, ich konnte keine Musik von {search_artist} finden"
+            playalbum_found: "Spiele das Album {album}"
+            playalbum_not_found: "Entschuldigung, das Album {search_album} wurde nicht gefunden"
             playlist_found: "Spiele die Playlist {playlist}"
             playlist_not_found: "Entschuldigung, ich konnte keine Playlist mit dem Namen {search_playlist} finden"
             playsong_found: "Spiele {song} von {artist}"
@@ -90,6 +101,8 @@ actions:
           responses:
             playartist_found: "Tocando música de {artist}"
             playartist_not_found: "Não foi possível encontrar nenhuma música de {search_artist}"
+            playalbum_found: "Tocando o álbum {album}"
+            playalbum_not_found: "Desculpe, o álbum {search_album} não foi encontrado"
             playlist_found: "Tocando a Playlist {playlist}"
             playlist_not_found: "Desculpe, nenhuma Playlist com o nome {search_playlist} pode ser encontrada"
             playsong_found: "Tocando {song} por {artist}"
@@ -157,6 +170,76 @@ actions:
                   - variables:
                       conversation_response: >-
                         {{ translations[language]['responses']['playartist_not_found'].replace("{search_artist}", trigger.slots.artist)}}
+                  - set_conversation_response: "{{ conversation_reponse }}"
+                  - action: view_assist.set_state
+                    target:
+                      entity_id: "{{ target_satellite_device }}"
+                    data:
+                      last_said: "{{ conversation_response }}"
+                else:
+                  - set_conversation_response: ""
+      - conditions:
+          - condition: trigger
+            id:
+              - playalbum
+        sequence:
+          - action: music_assistant.search
+            data:
+              limit: 1
+              config_entry_id: "{{ ma_instance }}"
+              media_type:
+                - album
+              name: "{{ trigger.slots.album }}"
+              artist: "{{ trigger.slots.artist if trigger.slots.artist is defined else '' }}"
+            response_variable: found_album
+          - alias: Did we find an album?
+            if:
+              - condition: template
+                value_template: "{{found_album['albums'] | count>0}}"
+                alias: We found an album!
+            then:
+              - action: view_assist.set_state
+                target:
+                  entity_id: "{{ target_satellite_device }}"
+                data:
+                  mode: music
+                  title: ""
+                  message_font_size: "5vw"
+              - action: view_assist.navigate
+                data:
+                  device: "{{ target_satellite_device }}"
+                  path: "{{ view_path }}"
+              - action: music_assistant.play_media
+                target:
+                  entity_id: "{{ target_musicplayer_device }}"
+                data:
+                  media_type: album
+                  enqueue: replace
+                  media_id: "{{ found_album.albums.0.name }}"
+                  artist: "{{ found_album.albums.0.artist.name if found_album.albums.0.artist is defined else '' }}"
+              - if:
+                  - condition: template
+                    value_template: "{{ target_use_announce is not false }}"
+                then:
+                  - variables:
+                      conversation_response: >-
+                        {{ translations[language]['responses']['playalbum_found'].replace("{album}", found_album.albums.0.name)}}
+                  - set_conversation_response: "{{ conversation_reponse }}"
+                  - action: view_assist.set_state
+                    target:
+                      entity_id: "{{ target_satellite_device }}"
+                    data:
+                      last_said: "{{ conversation_response }}"
+                else:
+                  - set_conversation_response: ""
+            else:
+              - if:
+                  - condition: template
+                    value_template: "{{ target_use_announce is not false }}"
+                then:
+                  - variables:
+                      conversation_response: >-
+                        {{ translations[language]['responses']['playalbum_not_found'].replace("{search_album}", trigger.slots.album)}}
                   - set_conversation_response: "{{ conversation_reponse }}"
                   - action: view_assist.set_state
                     target:
